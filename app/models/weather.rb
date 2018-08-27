@@ -1,5 +1,7 @@
+require 'net/http'
+
 class Weather
-    def self.get_weather_at_coordinates(coordinates)
+    def self.get_weather_at_coordinates(lat, lng)
         lat = "37.7767"
         lon = "-122.4233"
         

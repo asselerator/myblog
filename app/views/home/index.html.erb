@@ -15,7 +15,8 @@
     </header>
     <body>
       <div class ="first_section">
-        <h1 class="title-1">Hi, I'm Antoine</h1>
+        <h1 class="title-1">Hi, I'm Asselerator</h1>
+        <h2 style="width:50%;text-align:center;color:white"id="weather-summary"></h2>
         <h2 class="title-2">Welcome to my website</h2>
       </div>
     </div>
@@ -61,6 +62,7 @@
         <p>Copyright (c) 2017 Copyright Antoine Krajnc All Rights Reserved.</p>
         </div>
       </footer>
+      
       <script>
         function getRandomColor(){
           return "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
@@ -72,26 +74,24 @@
         
           $('.background-image').on('click', changeTitleColor);
           
-          navigator.geolocation.getCurrentPosition((location) => {
-            var latitude = location.coords.latitude
-            var longitude = location.coords.longitude
+        navigator.geolocation.getCurrentPosition(function(position)){
+          const productSchoolLat = position.coords.latitude || "37.796465";
+          const productSchoolLng = position.coords.longtitute || "-122.402492";
             
-              $.ajax({
-                    url: 'api/v1/weather',
-                    type: 'GET',
-                    data: { lat: latitude, lon: longitude} ,
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (response) {
-                      $(".title-2").replaceWith("<h2 class='title-2'>It is currently "+ response["currently"]["temperature"] + " degrees</h2>");
-                    },
-                    error: function () {
-                        console.log(response);
-                    }
-                });
+          $.ajax({
+            url: 'api/v1/get_weather',
+            type: 'GET',
+            data: { lat: productSchoolLat, lng: productSchoolLng } ,
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+              $('#weather-summary').text(response.daily.summary)
+              // console.log(response);
+            },
+            error: function (error) {
+              console.log(error);
+            }
           });
-  
- 
-
+        });
       </script>
     </body>
 </html>
